@@ -20,7 +20,7 @@ module.exports = {
         GMAIL_USER:"betanest.finance@gmail.com",
         GMAIL_PASS:"nvcc ckpc tgxn cgdl",
         JWT_SECRET:"thisismysecretkey",
-        CLIENT_URL:betanestfin.com
+        CLIENT_URL:"betanestfin.com"
       },
     },
   ],
