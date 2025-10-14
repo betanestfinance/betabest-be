@@ -14,8 +14,8 @@ COPY . .
 # Install PM2 globally
 RUN npm install -g pm2
 
-# Expose app port (make sure it matches your app)
-EXPOSE 3000
+# Expose app port
+EXPOSE 5050
 
 # Start app using PM2
 CMD ["pm2-runtime", "ecosystem.config.cjs"]
