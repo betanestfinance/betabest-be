@@ -165,8 +165,7 @@ export const inviteUser = async (req, res) => {
       email,
       "Set your password",
       `<p>Hello ${firstName},</p>
-       <p>Click below to set your password (expires in 24 hours):</p>
-       <a href="${resetLink}">${resetLink}</a>`
+       <p>You are invited to BetaNest. Click on set password to begin the journey (expires in 24 hours): <a href="${resetLink}">Set Password</a> </p>`
     );
 
     res.json({ message: "Invite sent successfully" });
@@ -234,13 +233,12 @@ export const requestPasswordReset = async (req, res) => {
     const rawToken = await generatePasswordResetToken(user);
 
     const resetLink = `${process.env.CLIENT_URL}/reset-password?token=${rawToken}`;
-    await transporter.sendMail({
-      to: email,
-      subject: "Password Reset Request",
-      html: `<p>Hello,</p>
-             <p>You requested a password reset. Click below:</p>
-             <a href="${resetLink}">Reset Password</a>`
-    });
+    await sendMail(
+      email,
+      "Password Reset Request",
+      `<p>Hello ${user?.firstName},</p>
+        <p>You requested a password reset. Click on reset password to change the password: <a href="${resetLink}">Reset Password</a></p>`
+    );
 
     res.json({ message: "If account exists, reset link will be sent" });
   } catch (err) {

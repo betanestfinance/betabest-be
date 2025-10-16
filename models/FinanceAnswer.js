@@ -23,7 +23,7 @@ const financeAnswerSchema = new mongoose.Schema(
         "Fixed salary (Government / Corporate)",
         "Business ownership",
         "Self-employed / Professional services",
-        "Passive income rental, dividends)",
+        "Passive income (rental, dividends)",
         "Retired",
         "Other (inheritance, trust, family office, etc.)",
       ],
