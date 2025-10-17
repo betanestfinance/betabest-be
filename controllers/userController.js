@@ -246,3 +246,23 @@ export const requestPasswordReset = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
+export const contactUs = async (req, res) => {
+  try {
+    const { name, email, message} = req.body;
+
+    await sendMail(
+      "betanest.finance@gmail.com",
+      `Contact from ${name}`,
+      `<p>Hello Chandra</p>
+       <p>${name} contacted from contact us form with below message</p>
+       <p>${message}</p>
+       <p>Email: ${email}</p>
+       `
+    );
+
+    res.json({ message: "We will contact you soon on a mail" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
