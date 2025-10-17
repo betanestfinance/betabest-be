@@ -1,5 +1,6 @@
 import FinanceAnswer from "../models/FinanceAnswer.js";
 import User from "../models/userModel.js";
+import { sendMail } from "../utils/mailer.js";
 
 // Common validation helper
 const validateFinanceAnswers = (answers) => {
@@ -273,7 +274,7 @@ export const saveFinanceAnswers = async (req, res) => {
     }
 
     // Prevent duplicate entry
-    let existing = await FinanceAnswer.findOne({ email: userEmail });
+    let existing = await FinanceAnswer.findOne({ email: userEmail, isActive: true });
     if (existing) {
       return res.status(400).json({ message: "Answers already exist" });
     }
@@ -319,6 +320,16 @@ export const saveFinanceAnswers = async (req, res) => {
     //   }
     // }
 
+    await sendMail(
+      userEmail,
+      "BetaNest - Risk profile assessment",
+      `<p>Hello</p>
+        <p>As per your answers to investment profile analysis, your risk profile is ${profile}. You will soon receive a mail from us for the next step. Meanwhile you can book a 30 minutes meeting from below link</p>
+        <p><a href="https://calendly.com/betanestfinance" target="_blank">Book a meeting</a></p><br/>
+        <p>Best Regards,<br/>BetaNest Team</p>
+        `
+    );
+
     res.status(201).json({ message: "Finance answers saved", data: newAnswers, risk: { score, profile } });
   } catch (err) {
     console.error("Save finance answers error:", err);
@@ -331,7 +342,7 @@ export const getFinanceAnswers = async (req, res) => {
   try {
     // console.log("User in getFinanceAnswers:", req.user);
     const userId = req.user.id;
-    const answers = await FinanceAnswer.findOne({ user: userId }).populate("user", "name email");
+    const answers = await FinanceAnswer.find({ user: userId }).populate("user", "name email");
     if (!answers) return res.status(404).json({ message: "No answers found" });
 
     res.json(answers);

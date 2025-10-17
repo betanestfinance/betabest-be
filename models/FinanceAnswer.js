@@ -133,6 +133,7 @@ const financeAnswerSchema = new mongoose.Schema(
      },
     riskProfile: { type: String, default: "" },
     riskScore: { type: Number, min: 0, max: 100, default: 0 },
+    isActive: { type: Boolean, default: true },
   },
   { timestamps: true }
 );

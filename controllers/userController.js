@@ -99,7 +99,7 @@ export const loginUser = async (req, res) => {
 
   try {
     const user = await User.findOne({ email });
-    const financeAnswer = await FinanceAnswer.find({ email }).sort({ createdDate: -1 }).limit(1);
+    const financeAnswer = await FinanceAnswer.find({ email: email, isActive: true });
     console.log("financeAnswer:", financeAnswer);
     if (!user) return res.status(400).json({ message: "Invalid credentials" });
 
@@ -130,15 +130,14 @@ export const generatePasswordResetToken = async (user, expiryHours = 24) => {
 export const inviteUser = async (req, res) => {
   try {
     const { firstName, lastName, email, countryCode, mobile} = req.body;
-    let financeAnswerExist = await FinanceAnswer.findOne({ email });
-    let isFinanceSubmitted = financeAnswerExist ? true : false;
+    let financeAnswer = await FinanceAnswer.findOne({ email, isActive: true });
+    let isFinanceSubmitted = financeAnswer ? true : false;
   
     let user = await User.findOne({ email });
     if (!user) {
       user = await User.create({ firstName, lastName, email, countryCode, mobile, isFinanceSubmitted: isFinanceSubmitted, riskProfile: "", riskScore: 0, dateOnBoard: new Date()}); // no password yet
     }
 
-    let financeAnswer = await FinanceAnswer.findOne({ email });
     console.log("financeAnswer in inviteUser:", financeAnswer);
     if (financeAnswer) {
       await FinanceAnswer.updateOne(
