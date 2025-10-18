@@ -322,11 +322,13 @@ export const saveFinanceAnswers = async (req, res) => {
 
     await sendMail(
       userEmail,
-      "BetaNest - Risk profile assessment",
+      "BetaNest - Your Investment Profile Assessment",
       `<p>Hello</p>
-        <p>As per your answers to investment profile analysis, your risk profile is ${profile}. You will soon receive a mail from us for the next step. Meanwhile you can book a 30 minutes meeting from below link</p>
+        <p>Thank you for completing your Investment Profile Analysis with BetaNest.</p>
+        <p>Based on your responses, your risk profile has been assessed as ${profile} — indicating a balanced appetite for capital appreciation and long-term wealth creation.</p>
+        <p>Our next step is to design a portfolio aligned with your ambitions and financial goals. In the meantime, you can schedule a 30-minute Discovery Meeting with us at your convenience using the link below: Book a meeting Link</p>
         <p><a href="https://calendly.com/betanestfinance" target="_blank">Book a meeting</a></p><br/>
-        <p>Best Regards,<br/>BetaNest Team</p>
+        <p>Warm regards,<br/>Team BetaNest</p><br /> <p>Cultivating Beta, Generating Alpha</p>
         `
     );
 
